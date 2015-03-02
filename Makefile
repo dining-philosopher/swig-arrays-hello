@@ -8,6 +8,7 @@ SOURCES= hello.cpp
 PYSOURCES=$(SOURCES) $(PYWRAPCPP) 
 
 OBJECTS=$(SOURCES:%.cpp=%.o)
+PYWRAPO=$(PYWRAPCPP:%.cpp=%.o)
 PYOBJECTS=$(PYSOURCES:%.cpp=%.o)
 
 #CFLAGS+=$(shell pkg-config --cflags libxslt sqlite3)
@@ -18,9 +19,6 @@ PYOBJECTS=$(PYSOURCES:%.cpp=%.o)
 CXXFLAGS+= -fPIC -I/usr/include/python2.7
 
 # PYFLAGS =
-
-# определения через CFLAGS не помогают, посему приходится переименовывать компилятор
-# CXX=g++ -fPIC -I/usr/include/python2.7
 
 
 all: $(TARGET) $(PYTARGET)
@@ -39,7 +37,7 @@ force_look :
 $(PYWRAPCPP): hello.i
 	swig -includeall -c++ -python -o $(PYWRAPCPP) hello.i
 
-hello_wrap.o: $(PYWRAPCPP)
+$(PYWRAPO): $(PYWRAPCPP)
 # 	$(CXX) $(CFLAGS) -o hello_wrap.o $(PYWRAPCPP)
 
 $(PYTARGET): $(PYOBJECTS) hello_wrap.o
