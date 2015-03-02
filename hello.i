@@ -246,3 +246,17 @@ struct Spam {
  float * array;
  Spam(int _q);
 };*/
+
+
+
+/*
+    python test for memory leaks
+
+def deltest(n, x = 10000, y = 10000, verbose = False):
+    for i in xrange(n):
+        b = hello.Box(x, y)
+        del b
+        if verbose: print i, " creation-deletion cycles of Box[", x, "][", y, "]"
+
+
+ */
