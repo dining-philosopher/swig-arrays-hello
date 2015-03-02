@@ -1,10 +1,11 @@
 # TARGET=$(shell basename `pwd`)
 TARGET=hello
+PYWRAPCPP = $(TARGET)_wrap.cpp
 PYTARGET=_$(TARGET).so
 
 #SOURCES=$(wildcard *.cpp)
 SOURCES= hello.cpp
-PYSOURCES=$(SOURCES) hello_wrap.cpp 
+PYSOURCES=$(SOURCES) $(PYWRAPCPP) 
 
 OBJECTS=$(SOURCES:%.cpp=%.o)
 PYOBJECTS=$(PYSOURCES:%.cpp=%.o)
@@ -12,7 +13,7 @@ PYOBJECTS=$(PYSOURCES:%.cpp=%.o)
 #CFLAGS+=$(shell pkg-config --cflags libxslt sqlite3)
 #LDFLAGS+=$(shell pkg-config --libs ncurses)
 #LDFLAGS+= -lncurses -lblas -lpthread -ldl -g -pg
-LDLIBS+= -g -pg
+#LDLIBS+= -g -pg
 
 # CFLAGS+= -fPIC -I/usr/include/python2.7
 
@@ -35,16 +36,16 @@ force_look :
 
 # gcc -MM generates list of dependencies!
 
-hello_wrap.cpp: hello.i
-	swig -includeall -c++ -python -o hello_wrap.cpp hello.i
+$(PYWRAPCPP): hello.i
+	swig -includeall -c++ -python -o $(PYWRAPCPP) hello.i
 
-hello_wrap.o: hello_wrap.cpp
-# 	$(CXX) $(CFLAGS) -o hello_wrap.o hello_wrap.cpp
+hello_wrap.o: $(PYWRAPCPP)
+# 	$(CXX) $(CFLAGS) -o hello_wrap.o $(PYWRAPCPP)
 
 $(PYTARGET): $(PYOBJECTS) hello_wrap.o
 	$(CXX) -shared $(CFLAGS) -o $(PYTARGET) $(LDFLAGS) $(PYOBJECTS) $(LOADLIBES) $(LDLIBS)
 
 clean:
-	$(RM) $(PYOBJECTS) $(PYTARGET) $(TARGET) hello_wrap.cpp
+	$(RM) $(PYOBJECTS) $(PYTARGET) $(TARGET) $(PYWRAPCPP)
 
 .PHONY: all clean
