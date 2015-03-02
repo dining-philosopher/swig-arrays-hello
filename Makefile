@@ -15,12 +15,12 @@ PYOBJECTS=$(PYSOURCES:%.cpp=%.o)
 #LDFLAGS+= -lncurses -lblas -lpthread -ldl -g -pg
 #LDLIBS+= -g -pg
 
-# CFLAGS+= -fPIC -I/usr/include/python2.7
+CXXFLAGS+= -fPIC -I/usr/include/python2.7
 
 # PYFLAGS =
 
 # определения через CFLAGS не помогают, посему приходится переименовывать компилятор
-CXX=g++ -fPIC -I/usr/include/python2.7
+# CXX=g++ -fPIC -I/usr/include/python2.7
 
 
 all: $(TARGET) $(PYTARGET)
