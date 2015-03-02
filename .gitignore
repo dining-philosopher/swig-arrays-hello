@@ -1,0 +1,7 @@
+*.swp
+*.so
+hello
+*.o
+*.pyc
+hello.py
+hello_wrap.cpp
