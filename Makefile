@@ -6,6 +6,7 @@ PYTARGET=_$(TARGET).so
 #SOURCES=$(wildcard *.cpp)
 SOURCES= hello.cpp
 PYSOURCES=$(SOURCES) $(PYWRAPCPP) 
+SWIGFILE = hello.i
 
 OBJECTS=$(SOURCES:%.cpp=%.o)
 PYWRAPO=$(PYWRAPCPP:%.cpp=%.o)
@@ -34,13 +35,13 @@ force_look :
 
 # gcc -MM generates list of dependencies!
 
-$(PYWRAPCPP): hello.i
-	swig -includeall -c++ -python -o $(PYWRAPCPP) hello.i
+$(PYWRAPCPP): $(SWIGFILE)
+	swig -includeall -c++ -python -o $(PYWRAPCPP) $(SWIGFILE)
 
 $(PYWRAPO): $(PYWRAPCPP)
 # 	$(CXX) $(CFLAGS) -o hello_wrap.o $(PYWRAPCPP)
 
-$(PYTARGET): $(PYOBJECTS) hello_wrap.o
+$(PYTARGET): $(PYOBJECTS) $(PYWRAPO)
 	$(CXX) -shared $(CFLAGS) -o $(PYTARGET) $(LDFLAGS) $(PYOBJECTS) $(LOADLIBES) $(LDLIBS)
 
 clean:
