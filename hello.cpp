@@ -30,7 +30,8 @@ Spam::Spam() {
 }
 
 Spam::~Spam() {
-    delete array;
+    if (q > 0) delete array;
+    for (int i = 0; i < q; i++) delete square[i];
 }
 
 float * Spam::garray(){
