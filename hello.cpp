@@ -14,7 +14,12 @@ int main(){
 Spam::Spam(int _q) {
     q = _q;
     array = new float[_q];
+    square = new float * [_q];
     for (int i = 0; i < q; i++) array[i] = i * 10;
+    for (int i = 0; i < q; i++) {
+        square[i] = new float[_q];
+        for (int j = 0; j < q; j++) square[i][j] = j * i;
+    }
     a = q * 100;
     b = q * 1000;
 }

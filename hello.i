@@ -19,6 +19,7 @@ static int myErr = 0; // flag to save error state
 %array_class(double, doubleArray);
 // %array_functions(float, floatArray);
 %array_class(float, floatArray);
+%array_class(floatArray, floatArrayArray);
 
 
 
@@ -177,10 +178,16 @@ static int myErr = 0; // flag to save error state
 // works but replaced by macros
 */
 
-
-
 ARRAYMEMBER(Spam, array, floatArray);
+// ARRAYMEMBER(Spam, square, floatArrayArray);
 ARRAYCLASS(Spam, array, q, float);
+
+%inline %{
+    // typedef float * floatp;
+    typedef floatArray * floatp;
+%}
+%array_class(floatp, floatpArray);
+ARRAYMEMBER(Spam, square, floatpArray);
 
 // %pointer_class(Spam, Spamp);
 %inline %{

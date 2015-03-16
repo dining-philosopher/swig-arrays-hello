@@ -6,6 +6,7 @@ class Spam {
     public:
         int a, b, q;
         float * array;
+        float ** square;
         
         float * garray();
          
